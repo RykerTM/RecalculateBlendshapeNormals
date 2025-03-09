@@ -1,0 +1,11 @@
+{
+    "name": "dev.rykertm.tools.recalculate",
+    "version": "1.0.0",
+    "displayName": "Recalculate Blend Shape Normals",
+    "description": "Non-modular version of https://github.com/hai-vr/'s blendshape normal recalculator. Meant for avatar artists who want to reduce project dependencies and customer friction.",
+    "unity": "2022.3",
+    "author": {
+      "name": "RykerTM",
+      "url": "https://github.com/RykerTM/RecalculateBlendshapeNormals"
+    }
+}
