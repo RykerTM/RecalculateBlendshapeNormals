@@ -364,8 +364,8 @@ namespace RykerTM.Tools.OnPostprocess
 			// Populate this list so we can check if multiple configs are referencing the same FBX path
 			List<string> loadedFBXPaths = new List<string>();
 				
-			Debug.Log("Begin recalculating blendshapes.");
-			if (LoadedSelections.Count() == 0) return;			
+			if (LoadedSelections.Count() == 0) return;
+			Debug.Log("Begin recalculating blendshapes.");			
 			
 			EditorUtility.DisplayProgressBar("Please wait", "Recalculating blendshape normals...", 0.5f);
 			
