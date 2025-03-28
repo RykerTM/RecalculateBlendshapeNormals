@@ -1,5 +1,9 @@
-# RecalculateBlendshapeNormals
+# Recalculate Blendshape Normals
 Non-modular version of [Hai~vr](https://github.com/hai-vr/)'s blendshape normal recalculator. Meant for avatar artists who want to reduce project dependencies and customer friction. 
+
+# Add to VRChat Creator Companion
+https://rykertm.github.io/vpm-listing/
+
 
 ## Prepare your FBX first...
 Enable 'Legacy Blend Shapes Normals' or set 'Blend Shape Normals' to 'None.' 
