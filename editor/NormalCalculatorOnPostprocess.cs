@@ -93,7 +93,7 @@ namespace RykerTM.Tools.OnPostprocess
 			if (LoadedSelections.Count() > 0) BuildNameList(); // Build list of all FBX names for postprocess call
 		}
 		// LOAD		
-		public static string prefKey;
+		public static string prefKey = "RykerTM_RecalculateOnImport";
 		public static bool IsEnabled // Recalculate on Import/Init
 		{
 			get { return EditorPrefs.GetBool(prefKey, true); }
