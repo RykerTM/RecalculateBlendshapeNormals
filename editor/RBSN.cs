@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System;
 using UnityEngine;
 using UnityEditor;
 using VRC.SDK3.Avatars.Components;
@@ -14,8 +15,16 @@ public class RBSNHook : IVRCSDKPreprocessAvatarCallback
 {
     public bool OnPreprocessAvatar(GameObject avatar)
 	{
-		Recalculate.Avatar(avatar);
-		return true;
+		try
+		{
+			Recalculate.Avatar(avatar);
+			return true;
+		}
+		catch (Exception e)
+		{
+			Debug.LogException(e);
+			return false;
+		}
 	}
 	public int callbackOrder => -11000;
 }
@@ -30,7 +39,7 @@ public class Recalculate
 		EditorUtility.ClearProgressBar();
 		float i = 0;
 		foreach (RBSNComponent component in recalculateComponents)
-		{ 
+		{
 			i++;
 			EditorUtility.DisplayProgressBar("RBSN", "Recalculating: " + component.gameObject.name, (i / (float)recalculateComponents.Count()));
 			

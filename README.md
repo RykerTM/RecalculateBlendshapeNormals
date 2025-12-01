@@ -4,8 +4,8 @@ Standalone version of [Hai~vr](https://github.com/hai-vr/)'s blendshape normal r
 ### Add to VRChat Creator Companion
 https://rykertm.github.io/vpm-listing/
 
-### *Requires VRCFury or MA
-This script hooks onto the OnPreprocessAvatar() method called by VRCFury.
+### *Will not build in play mode without VRCFury or MA
+This script does not call OnPreprocessAvatar() on its own and requires VRCFury or MA to test in play mode.
 
 ### Prepare your FBX first...
 Enable 'Legacy Blend Shapes Normals' OR set 'Blend Shape Normals' to 'None.' 

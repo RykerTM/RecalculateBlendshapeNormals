@@ -141,7 +141,18 @@ namespace RykerTM.Tools.RBSN.Hai
 			}
 			Object.DestroyImmediate(baker.gameObject);			
 			var mesh = Object.Instantiate(originalMesh);
-			smr.sharedMesh = RebuildBlendshapesOnCopy(mesh, originalMesh, nameToFrameDeltaBakes);
+            RebuildBlendshapesOnCopy(mesh, originalMesh, nameToFrameDeltaBakes);
+			SaveMeshToFile(mesh, smr.sharedMesh.name);
+            smr.sharedMesh = mesh;
+		}
+		
+		private static void SaveMeshToFile(Mesh mesh, string meshName)
+		{
+			string folderPath = "Packages/dev.rykertm.tools.recalculate/tmp";
+
+			if (!AssetDatabase.IsValidFolder(folderPath)) AssetDatabase.CreateFolder("Packages/dev.rykertm.tools.recalculate", "tmp");
+
+			AssetDatabase.CreateAsset(mesh, $"{folderPath}/{meshName}.asset");
 		}
 
 		private static void ReRecalculateNormalsInUVSeams(Mesh mesh, List<int[]> indicesWithSamePosNorm)
@@ -226,40 +237,38 @@ namespace RykerTM.Tools.RBSN.Hai
 			}
 		}
 
-		private static Mesh RebuildBlendshapesOnCopy(Mesh meshCopy, Mesh originalMesh, Dictionary<string, DeltaMeshBake[]> nameToFrameDeltaBakes)
-		{
-			var verts = new Vector3[originalMesh.vertexCount];
-			var norms = new Vector3[originalMesh.vertexCount];
-			var tans = new Vector3[originalMesh.vertexCount];
+		private static void RebuildBlendshapesOnCopy(Mesh meshCopy, Mesh originalMesh, Dictionary<string, DeltaMeshBake[]> nameToFrameDeltaBakes)
+        {
+            var verts = new Vector3[originalMesh.vertexCount];
+            var norms = new Vector3[originalMesh.vertexCount];
+            var tans = new Vector3[originalMesh.vertexCount];
 
-			meshCopy.ClearBlendShapes();
-			for (var shapeIndex = 0; shapeIndex < originalMesh.blendShapeCount; shapeIndex++)
-			{
-				var name = originalMesh.GetBlendShapeName(shapeIndex);
-				if (!nameToFrameDeltaBakes.Keys.Contains(name))
-				{
-					var frames = originalMesh.GetBlendShapeFrameCount(shapeIndex);
-					for (var frameIndex = 0; frameIndex < frames; frameIndex++)
-					{
-						var weight = originalMesh.GetBlendShapeFrameWeight(shapeIndex, frameIndex);
-						originalMesh.GetBlendShapeFrameVertices(shapeIndex, frameIndex, verts, norms, tans);
-						meshCopy.AddBlendShapeFrame(name, weight, verts, norms, tans);
-					}
-				}
-				else
-				{
-					var baked = nameToFrameDeltaBakes[name];
-					var frames = baked.Length;
-					for (var frameIndex = 0; frameIndex < frames; frameIndex++)
-					{
-						var weight = originalMesh.GetBlendShapeFrameWeight(shapeIndex, frameIndex);
-						var bakedFrame = baked[frameIndex];
-						meshCopy.AddBlendShapeFrame(name, weight, bakedFrame.vertices, bakedFrame.normals, bakedFrame.tangents);
-					}
-				}
-			}
-			return meshCopy;
-			
+            meshCopy.ClearBlendShapes();
+            for (var shapeIndex = 0; shapeIndex < originalMesh.blendShapeCount; shapeIndex++)
+            {
+                var name = originalMesh.GetBlendShapeName(shapeIndex);
+                if (!nameToFrameDeltaBakes.Keys.Contains(name))
+                {
+                    var frames = originalMesh.GetBlendShapeFrameCount(shapeIndex);
+                    for (var frameIndex = 0; frameIndex < frames; frameIndex++)
+                    {
+                        var weight = originalMesh.GetBlendShapeFrameWeight(shapeIndex, frameIndex);
+                        originalMesh.GetBlendShapeFrameVertices(shapeIndex, frameIndex, verts, norms, tans);
+                        meshCopy.AddBlendShapeFrame(name, weight, verts, norms, tans);
+                    }
+                }
+                else
+                {
+                    var baked = nameToFrameDeltaBakes[name];
+                    var frames = baked.Length;
+                    for (var frameIndex = 0; frameIndex < frames; frameIndex++)
+                    {
+                        var weight = originalMesh.GetBlendShapeFrameWeight(shapeIndex, frameIndex);
+                        var bakedFrame = baked[frameIndex];
+                        meshCopy.AddBlendShapeFrame(name, weight, bakedFrame.vertices, bakedFrame.normals, bakedFrame.tangents);
+                    }
+                }
+            }
 		}
 		private static void ExtractFromTRS(Matrix4x4 matrix, out Vector3 pos, out Quaternion rot, out Vector3 scale)
         {
@@ -281,4 +290,3 @@ namespace RykerTM.Tools.RBSN.Hai
 	}		
 }
 
-    
