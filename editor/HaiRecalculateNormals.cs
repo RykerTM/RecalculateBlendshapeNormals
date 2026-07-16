@@ -148,11 +148,14 @@ namespace RykerTM.Tools.RBSN.Hai
 		
 		private static void SaveMeshToFile(Mesh mesh, string meshName)
 		{
-			string folderPath = "Packages/dev.rykertm.tools.recalculate/tmp";
+			const string folderPath = "Packages/dev.rykertm.tools.recalculate/tmp";
 
 			if (!AssetDatabase.IsValidFolder(folderPath)) AssetDatabase.CreateFolder("Packages/dev.rykertm.tools.recalculate", "tmp");
 
-			AssetDatabase.CreateAsset(mesh, $"{folderPath}/{meshName}.asset");
+			// For strange instances where a skinned mesh is named the same as another
+			int rndInt = Random.Range(0,9999);
+
+			AssetDatabase.CreateAsset(mesh, $"{folderPath}/{meshName + "_" + rndInt.ToString()}.asset");
 		}
 
 		private static void ReRecalculateNormalsInUVSeams(Mesh mesh, List<int[]> indicesWithSamePosNorm)
@@ -289,4 +292,3 @@ namespace RykerTM.Tools.RBSN.Hai
 		}
 	}		
 }
-
