@@ -17,6 +17,11 @@ public class RBSNHook : IVRCSDKPreprocessAvatarCallback
 	{
 		try
 		{
+			// Clear cache to prevent issues
+			const string tmpPath = "Packages/dev.rykertm.tools.recalculate/tmp";
+			if (AssetDatabase.IsValidFolder(tmpPath)) AssetDatabase.DeleteAsset(tmpPath);
+
+			// Recalculate
 			Recalculate.Avatar(avatar);
 			return true;
 		}
